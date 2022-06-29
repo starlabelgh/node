@@ -1,5 +1,8 @@
 let express = require("express")
 let firstApp = express()
+
+firstApp.use(express.urlencoded({extended: false}))
+
 firstApp.get('/', function(req,res){
     res.send(`
     <form action="/answer" method="POST">
@@ -10,7 +13,17 @@ firstApp.get('/', function(req,res){
     `)
 })
 firstApp.post('/answer', function(req,res){
-    res.send("Thank you for submiting your answer")
+    if (req.body.skyColor.toUpperCase() == "BLUE"){
+        res.send(`
+            <p>Congrats , thta is the correct answer!</p>
+            <a href="/">Back to homepage</a>
+        `)
+    }else{
+        res.send(`
+            <p>Sorry, that answer is not correct.</p>
+            <a href="/">Back to homepage</a>
+        `)
+    }
 })
 
 firstApp.get('/answer', function(req,res){
